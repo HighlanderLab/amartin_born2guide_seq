@@ -24,5 +24,5 @@ A general description of the scripts and functions can be found in the correspon
   (The "Results.txt" file can then be used to rank the different scenarios and create graphs.)
 
   Miscellaneous: 
-  The other files in the repository contain scripts and functions automatically called within the simulation process without a need of intervention from the user. 
+  The files in folder Miscellaneous contain scripts and functions automatically called within the simulation process without a need of intervention from the user. 
 
