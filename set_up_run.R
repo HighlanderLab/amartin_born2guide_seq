@@ -83,7 +83,7 @@ setwd(dir_run)
 
 
 #simulate SNP arrays outside of replicates
-source(paste0(dir_script, 'simulate_nested_SNP.R'))
+source(paste0(dir_script, 'simulate_nested_SNP.R')) #simulate_nested_SNP.R is using parameters specific to the species and population used, please edit the script with own parameters if necessary
 write.table(sites_mutation, paste0(dir_run, '/sites_mutation.txt'), sep = " ", quote = FALSE, row.names = FALSE, col.names = FALSE)
 #create subfolders for replicates 
 subfolders = paste0("repl", 1:replicate)
