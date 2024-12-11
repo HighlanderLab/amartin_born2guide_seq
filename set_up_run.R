@@ -40,7 +40,7 @@ scenario_none = 'realX_none'
 scenario_seq_parent = c('realX_parent', 'high20X_reseq')
 #scenario for the puppies 
 scenario_seq_puppies = c('high20X_puppies', 'lowX0.5_puppies', 'lowX1_puppies', 'lowX2_puppies', 'lowX0.5amp_puppies', 'lowX1amp_puppies', 'lowX2amp_puppies')
-scenario_geno_puppies = c('pup_25K_geno', 'pup_50K_geno', 'pup_170K_geno')#, 'pup_710K_geno')
+scenario_geno_puppies = c('pup_25K_geno', 'pup_50K_geno', 'pup_170K_geno', 'pup_710K_geno')
 #all the scenarios with sequencing 
 scenario_seq = c(scenario_seq_puppies, scenario_seq_parent)
 #all the scenarios with SNP genotyping
