@@ -1,1 +1,14 @@
-
+cff-version: 1.2.0
+message: "If you use this script, please cite the original publication (DOI:XXX/XXXXX)".
+authors:
+  - family-names: "Martin"
+    given-names: "Audrey"
+    orcid: "https://orcid.org/0000-0003-2235-0098"
+  - family-names: "Gorjanc"
+    given-names: "Gregor"
+title: "Simulation script for 'Born to Guide' project"
+identifiers:
+  - type: doi
+    value: XX/XXXXX
+date-released: 2025-01-15
+url: "https://github.com/AudreyAAMartin/Born2Guide_script_GSE"
