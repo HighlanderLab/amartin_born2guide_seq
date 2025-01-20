@@ -251,7 +251,6 @@ assessPeeling = function(filePrefix, repl, truegeno, pup_id_dir, seq_id, gen_up_
 #' @param pop \code{\link{Pop-class}}
 #' @param depth numeric, sequencing depth, average number of times a locus is
 #'   sequenced
-#' @param error numeric, sequencing/alignment/calling error rate [0,1]
 #' @param model character, PoissonGamma or Poisson
 #' @param gamma numeric, shape parameter for gamma distribution in the
 #'   PoissonGamma model
@@ -293,10 +292,6 @@ assessPeeling = function(filePrefix, repl, truegeno, pup_id_dir, seq_id, gen_up_
 #'   alternative alleles. We conveniently sample this from binomial distribution
 #'   with probability for the alternative allele equaling genotype dosage / 2.
 #'
-#'   4) Error
-#'
-#'   A sequence read can be wrong. We sample how many reads are wrong and then
-#'   flip allele read. We flip in both directions at random.
 #'
 #' @examples
 #' founderPop <- quickHaplo(nInd = 3, nChr = 2, segSites = 10)
@@ -306,12 +301,9 @@ assessPeeling = function(filePrefix, repl, truegeno, pup_id_dir, seq_id, gen_up_
 #' # True genotype
 #' pullSegSiteGeno(pop)
 #'
-#' # High coverage sequencing (without error)
-#' simulateSeqReads(pop, depth = 30, error = 0)
-#'
-#' # High coverage sequencing (with high error)
-#' simulateSeqReads(pop, depth = 30, error = 0.5)
-#'
+#' # High coverage sequencing
+#' simulateSeqReads(pop, depth = 30)
+
 #' # Low coverage sequencing
 #' simulateSeqReads(pop, depth = 1)
 #'
@@ -332,7 +324,7 @@ assessPeeling = function(filePrefix, repl, truegeno, pup_id_dir, seq_id, gen_up_
 #'library(AlphaSimR)
 #'
 #' @export
-simulateSeqReads <- function(pop, depth, error = 0.01,
+simulateSeqReads <- function(pop, depth,
                              model = "PoissonGamma", gamma = 4,
                              pool = FALSE, amplify = 0) {
   nLoci <- sum(pop@nLoci)
@@ -357,8 +349,8 @@ simulateSeqReads <- function(pop, depth, error = 0.01,
     refAllele <- nReads - altAllele
     if (error > 0) {
       n <- round(nReads / 2)
-      eAlt <- rbinom(n = nLoci, size = n, prob = error)
-      eRef <- rbinom(n = nLoci, size = n, prob = error)
+      eAlt <- rbinom(n = nLoci, size = n)
+      eRef <- rbinom(n = nLoci, size = n)
       refAllele <- refAllele - eRef + eAlt
       refAllele[refAllele < 0] <- 0
       altAllele <- altAllele - eAlt + eRef
