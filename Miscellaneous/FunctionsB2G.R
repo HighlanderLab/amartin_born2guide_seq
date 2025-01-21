@@ -291,6 +291,11 @@ assessPeeling = function(filePrefix, repl, truegeno, pup_id_dir, seq_id, gen_up_
 #'   Depending on the actual genotype of individual we sequence reference or
 #'   alternative alleles. We conveniently sample this from binomial distribution
 #'   with probability for the alternative allele equaling genotype dosage / 2.
+#'  
+#'   4) Error
+#'
+#'   A sequence read can be wrong. We sample how many reads are wrong and then
+#'   flip allele read. We flip in both directions at random.
 #'
 #'
 #' @examples
@@ -301,11 +306,11 @@ assessPeeling = function(filePrefix, repl, truegeno, pup_id_dir, seq_id, gen_up_
 #' # True genotype
 #' pullSegSiteGeno(pop)
 #'
-#' # High coverage sequencing
-#' simulateSeqReads(pop, depth = 30)
-
-#' # Low coverage sequencing
-#' simulateSeqReads(pop, depth = 1)
+#' # High coverage sequencing (without error)
+#' simulateSeqReads(pop, depth = 30, error = 0)
+#'
+#' # High coverage sequencing (with high error)
+#' simulateSeqReads(pop, depth = 30, error = 0.7)
 #'
 #' # Pool sequencing
 #' simulateSeqReads(pop, depth = 30, pool = TRUE)
@@ -324,7 +329,7 @@ assessPeeling = function(filePrefix, repl, truegeno, pup_id_dir, seq_id, gen_up_
 #'library(AlphaSimR)
 #'
 #' @export
-simulateSeqReads <- function(pop, depth,
+simulateSeqReads <- function(pop, depth, error = 0.01,
                              model = "PoissonGamma", gamma = 4,
                              pool = FALSE, amplify = 0) {
   nLoci <- sum(pop@nLoci)
@@ -349,8 +354,8 @@ simulateSeqReads <- function(pop, depth,
     refAllele <- nReads - altAllele
     if (error > 0) {
       n <- round(nReads / 2)
-      eAlt <- rbinom(n = nLoci, size = n)
-      eRef <- rbinom(n = nLoci, size = n)
+      eAlt <- rbinom(n = nLoci, size = n, prob = error)
+      eRef <- rbinom(n = nLoci, size = n, prob = error)
       refAllele <- refAllele - eRef + eAlt
       refAllele[refAllele < 0] <- 0
       altAllele <- altAllele - eAlt + eRef
