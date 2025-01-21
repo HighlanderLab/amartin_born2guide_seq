@@ -5,7 +5,7 @@ breeding_dog_coverage = read.table(paste0(dir_input, "breeding_dogs_coverage.txt
 reads_parent = data.frame()
 for (n in 1:length(parent_pop@id)){
     #need to find coverage mean for each ID in parent_pop (!= order)
-    reads = simulateSeqReads(parent_pop[n], depth = as.numeric(breeding_dog_coverage[breeding_dog_coverage$id == parent_pop@id[n], 2]))
+    reads = simulateSeqReads(parent_pop[n], depth = as.numeric(breeding_dog_coverage[breeding_dog_coverage$id == parent_pop@id[n], 2]), error = 0.001)
     reads_parent = rbind(reads_parent, reads)
 }
 #
@@ -18,7 +18,7 @@ write.table(reads_parent, "realX_parent.txt", sep = " ", na = "0", quote = F, ro
 #for sequencing puppies scenarios
 # High coverage sequencing at 20X
 for (coverage in high_seq){
-  reads_puppies = simulateSeqReads(pup, depth = coverage)
+  reads_puppies = simulateSeqReads(pup, depth = coverage, error = 0.001)
   reads_puppies = cbind(id = rep(x = pup@id, each = 2), reads_puppies) 
   assign(x = paste0('high', coverage, 'X_puppies'), value = reads_puppies)
 }
@@ -35,7 +35,7 @@ breeding_puppies_pop = whole_pop[whole_pop@id %in% breeding_parents$X1]
 #then I can reuse the same code as above for the puppies
 #and create a file with all reads (parents at their actual coverage and puppies at 20X)
 for (coverage in high_seq){
-  reads_reseq = simulateSeqReads(breeding_puppies_pop, depth = coverage)
+  reads_reseq = simulateSeqReads(breeding_puppies_pop, depth = coverage, error = 0.001)
   reads_reseq = cbind(id = rep(x = breeding_puppies_pop@id, each = 2), reads_reseq) 
   reads_parent = rbind(reads_parent, reads_reseq)
   assign(x = paste0('high', coverage, 'X_reseq'), value = reads_parent)
@@ -44,7 +44,7 @@ for (coverage in high_seq){
 
 #low pass sequencing for puppies
 for (sce in low_seq){
-  reads_puppies = simulateSeqReads(pup, depth = sce)
+  reads_puppies = simulateSeqReads(pup, depth = sce, error = 0.001)
   reads_puppies = cbind(id = rep(x = pup@id, each = 2), reads_puppies) 
   assign(x = paste0('lowX', sce, '_puppies'), value = reads_puppies)
 }
@@ -59,7 +59,7 @@ amplicon[sites_mutation] <- 30
 
 
 for (sce in low_seq){
-  reads_puppies = simulateSeqReads(pup, depth = sce, amplify = amplicon)
+  reads_puppies = simulateSeqReads(pup, depth = sce, amplify = amplicon, error = 0.001)
   reads_puppies = cbind(id = rep(x = pup@id, each = 2), reads_puppies) 
   assign(x = paste0('lowX', sce, 'amp_puppies'), value = reads_puppies)
 }
