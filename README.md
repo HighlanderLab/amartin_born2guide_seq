@@ -1,4 +1,4 @@
-# Born2Guide_script_GSE: Born2Guide genotyping strategy simulations
+# amartin_born2guide_seq: Born2Guide genotyping strategy simulations
 ## Audrey AA Martin, Jeffrey Schoenebeck, Dylan Clements, Tom Lewis, Pamela Wiener and Gregor Gorjanc
 
 Published in XXX DOI: 
